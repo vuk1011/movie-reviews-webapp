@@ -1,7 +1,6 @@
 from django.db import models
 from datetime import date
 
-# Create your models here.
 
 class Genre(models.Model):
     name = models.CharField(max_length=30, unique=True)
@@ -11,7 +10,8 @@ class Genre(models.Model):
     
     class Meta:
         ordering = ['name']
-    
+
+
 class Movie(models.Model):
     year_now = date.today().year
 
@@ -29,6 +29,7 @@ class Movie(models.Model):
     
     class Meta:
         ordering = ['title']
+
     
 class Review(models.Model):
     email = models.EmailField()

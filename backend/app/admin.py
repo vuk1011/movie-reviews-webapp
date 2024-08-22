@@ -10,10 +10,10 @@ class MovieAdmin(admin.ModelAdmin):
         strings = [str(g) for g in obj.genres.all()]
         return ", ".join(strings)
     
+
 class ReviewAdmin(admin.ModelAdmin):
     list_display = ('email', 'stars', 'movie', 'time')
 
-# Register your models here.
 
 admin.site.register(Genre)
 admin.site.register(Movie, MovieAdmin)
