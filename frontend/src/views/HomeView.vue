@@ -1,26 +1,21 @@
 <template>
   <div class="main">
+
     <div class="leftpane">
       <p class="a">Izaberite žanr</p>
-      
-      <GenreButton 
-        v-for="g in genres" :genre="g" 
-        @genreChanged="changeFilters"
-      />
+
+      <GenreButton v-for="g in genres" :genre="g" @genreChanged="changeFilters" />
 
       <p v-if="moviesFiltered.length == 0">Nema rezultata</p>
       <p v-else-if="moviesFiltered.length == 1">1 rezultat</p>
       <p v-else>{{ moviesFiltered.length }} rezultata</p>
     </div>
-  
+
     <div class="mainpane">
-      <MovieCard
-        v-for="movie in moviesFiltered"
-        :movie="movie"
-        :genres="getGenreNames(movie['genres'])"
-        :stars = "getStars(movie.id)"
-      />
+      <MovieCard v-for="movie in moviesFiltered" :movie="movie" :genres="getGenreNames(movie['genres'])"
+        :stars="getStars(movie.id)" />
     </div>
+
   </div>
 </template>
 
@@ -29,15 +24,14 @@ import axios from 'axios';
 import GenreButton from '@/components/GenreButton.vue';
 import MovieCard from '@/components/MovieCard.vue';
 
-const api_url = '/api/'
-
 export default {
   name: 'HomeView',
 
-  components: {GenreButton, MovieCard},
+  components: { GenreButton, MovieCard },
 
   data() {
     return {
+      api_url: '/api/',
       genres: [],
       genresToFilter: [],
       movies: [],
@@ -49,25 +43,28 @@ export default {
   methods: {
     getGenres() {
       axios
-        .get(api_url + 'genres/')
+        .get(this.api_url + 'genres/')
         .then(response => this.genres = response.data)
         .catch((e) => console.log(e['name'] + ' ' + e['message']))
     },
+
     getMovies() {
       axios
-        .get(api_url + 'movies/')
-        .then(response =>{
+        .get(this.api_url + 'movies/')
+        .then(response => {
           this.movies = response.data
           this.moviesFiltered = response.data
         })
         .catch((e) => console.log(e['name'] + ' ' + e['message']))
     },
+
     getReviews() {
       axios
-        .get(api_url + 'reviews/')
+        .get(this.api_url + 'reviews/')
         .then(response => this.reviews = response.data)
         .catch((e) => console.log(e['name'] + ' ' + e['message']))
     },
+
     overlap(arr1, arr2) {
       for (const x of arr1) {
         if (arr2.indexOf(x) > -1) {
@@ -76,6 +73,7 @@ export default {
       }
       return false
     },
+
     refreshMovies() {
       if (this.genresToFilter.length == 0) {
         this.moviesFiltered = this.movies.map(obj => ({ ...obj }))
@@ -85,6 +83,7 @@ export default {
         obj => this.overlap(obj.genres, this.genresToFilter)
       )
     },
+
     changeFilters(isPressed, id) {
       if (isPressed) {
         this.genresToFilter.push(id)
@@ -96,6 +95,7 @@ export default {
       }
       this.refreshMovies()
     },
+
     getGenreNames(genreIds) {
       const genreNames = []
       for (const id of genreIds) {
@@ -107,6 +107,7 @@ export default {
       }
       return genreNames
     },
+
     getStars(movieId) {
       let reviewsFiltered = this.reviews.filter(r => r.movie == movieId)
       if (reviewsFiltered.length == 0) {
@@ -117,7 +118,7 @@ export default {
         sum += r.stars
       }
       return (sum / reviewsFiltered.length).toFixed(1)
-    }
+    },
   },
 
   mounted() {

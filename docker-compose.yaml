@@ -4,8 +4,8 @@ name: 'Filmovi recenzije'
 
 services:
   backend:
-    build: ./backend
     container_name: backend
+    build: ./backend
     ports:
       - "8000:8000"
     restart: always
@@ -16,26 +16,37 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-      start_period: 15s
+      start_period: 10s
     volumes:
       - ./backend:/app
       - db_data:/db/
     networks:
       - app-network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
 
   frontend:
-    build: ./frontend
     container_name: frontend
+    build: ./frontend
     ports:
       - "8080:8080"
     restart: always
+    depends_on:
+      backend:
+        condition: service_healthy
+        restart: true
     volumes:
       - ./frontend:/app
     networks:
       - app-network
-    depends_on:
-      backend:
-        condition: service_healthy
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
 
 networks:
   app-network:

@@ -20,14 +20,13 @@
 
 <script>
 import axios from 'axios';
- 
+
 function getCookie(name) {
   let cookieValue = null;
   if (document.cookie && document.cookie !== '') {
     const cookies = document.cookie.split(';');
     for (let i = 0; i < cookies.length; i++) {
       const cookie = cookies[i].trim();
-      // Does this cookie string begin with the name we want?
       if (cookie.substring(0, name.length + 1) === (name + '=')) {
         cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
         break;
@@ -42,9 +41,9 @@ export default {
 
   data() {
     return {
+      api_url: '/api/',
       email: '',
       stars: 10,
-      api_url: '/api/',
     }
   },
 
@@ -53,6 +52,7 @@ export default {
       type: Array,
       required: true,
     },
+
     movie: {
       type: Number,
       required: true,
@@ -61,28 +61,30 @@ export default {
 
   methods: {
     handleSubmit() {
-      // check if the user already posted
       const emails = this.reviews.map(rev => rev.email)
+
       if (emails.indexOf(this.email) > -1) {
         alert('Već ste uneli Vašu ocenu!')
       } else {
         const csrfToken = getCookie('csrftoken');
 
         axios
-          .post(this.api_url + 'reviews/', {
-            email: this.email,
-            stars: this.stars,
-            movie: this.movie
-          }, {
-            headers: {
-              'X-CSRFToken': csrfToken
-            }
-          })
-          .then(response => {})
+          .post(this.api_url + 'reviews/',
+            {
+              email: this.email,
+              stars: this.stars,
+              movie: this.movie
+            },
+            {
+              headers: {
+                'X-CSRFToken': csrfToken
+              }
+            })
+          .then(response => { })
           .catch((e) => console.log(e['name'] + ' ' + e['message']))
       }
       location.reload()
-    }
+    },
   },
 }
 </script>
@@ -98,7 +100,7 @@ form {
   margin: 30px;
 }
 
-form > h2 {
+form>h2 {
   font-size: 30px;
   font-family: Arial, Helvetica, sans-serif;
   font-weight: 400;
@@ -111,11 +113,11 @@ label {
   font-weight: 100;
 }
 
-form > h2 label {
+form>h2 label {
   color: #000000;
 }
 
-form > * {
+form>* {
   margin: 5px;
 }
 

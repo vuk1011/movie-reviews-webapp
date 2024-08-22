@@ -1,31 +1,33 @@
 <template>
   <div class="card-small">
-      <router-link class="card-link" :to="{ name: 'movie', params: { id: movie.id } }">
-        <img :src="getImgSrc()" alt="Slika" class="card-small-image">
-        <div class="card-small-container">
-          <h3 class="card-small-title">{{ movie.title }}</h3>
-          <h4>{{ stars }} ⭐</h4>
-          <p v-for="genre in genres">{{ genre }}</p>
-        </div>
-      </router-link>
-    </div>
+    <router-link class="card-link" :to="{ name: 'movie', params: { id: movie.id } }">
+
+      <img :src="getImgSrc()" alt="Slika" class="card-small-image">
+      <div class="card-small-container">
+        <h3 class="card-small-title">{{ movie.title }}</h3>
+        <h4>{{ stars }} ⭐</h4>
+        <p v-for="genre in genres">{{ genre }}</p>
+      </div>
+
+    </router-link>
+  </div>
 </template>
 
 <script>
 export default {
-    name: 'MovieCard',
+  name: 'MovieCard',
 
-    props: {
-      movie: Object,
-      genres: Array,
-      stars: String,
+  props: {
+    movie: Object,
+    genres: Array,
+    stars: String,
+  },
+
+  methods: {
+    getImgSrc() {
+      return require(`@/assets/static/${this.$props.movie.id}.jpg`)
     },
-    
-    methods: {
-      getImgSrc() {
-          return require(`@/assets/static/${this.$props.movie.id}.jpg`)
-      },
-    },
+  },
 }
 </script>
 
@@ -54,7 +56,7 @@ export default {
   border-bottom-right-radius: 12px;
   font-size: 20px;
   font-style: #FFFFFF;
-} 
+}
 
 .card-small-title {
   margin: 0px;

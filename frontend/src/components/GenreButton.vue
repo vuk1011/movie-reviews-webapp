@@ -1,34 +1,30 @@
 <template>
-  <div class="genre-button-wrapper">
-	<button
-		class="genre-btn"
-		@click="changeStatus()"
-			:class="{pressed: isPressed}"
-		>
+	<div class="genre-button-wrapper">
+		<button class="genre-btn" @click="changeStatus()" :class="{ pressed: isPressed }">
 			{{ genre.name }}
 		</button>
-  </div>
+	</div>
 </template>
 
 <script>
 export default {
-  name: 'GenreButton',
+	name: 'GenreButton',
 
-  props: {
-    genre: Object
-  },
-
-  data() {
-    return {
+	data() {
+		return {
 			isPressed: false,
-    }
-  },
+		}
+	},
+
+	props: {
+		genre: Object
+	},
 
 	methods: {
 		changeStatus() {
 			this.isPressed = !this.isPressed
 			this.$emit('genreChanged', this.isPressed, this.$props.genre.id)
-		}
+		},
 	},
 }
 </script>

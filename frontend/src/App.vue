@@ -1,15 +1,17 @@
 <template>
   <div class="wrapper">
+
     <div class="header">
       <h1 class="header-text">Domaći Filmovi</h1>
       <p class="header-text">pretražite i ocenite domaće filmove</p>
     </div>
-    <RouterView>
-      
-    </RouterView>
+
+    <RouterView></RouterView>
+
     <div class="footer">
       <p>Copyright (c) 2024</p>
     </div>
+
   </div>
 </template>
 

@@ -1,13 +1,14 @@
 <template>
   <div class="top-bar">
     <router-link class="link-back" :to="{ name: 'home' }">
-      < Nazad
-    </router-link>
+      < Nazad </router-link>
   </div>
 
   <div class="card-big">
     <img class="card-big-image" :src="getImgSrc()" alt="Slika">
+
     <div class="card-big-container">
+
       <h2>{{ movie.title }} ({{ movie.year }})</h2>
       <h3>{{ getStars($route.params.id) }} ⭐</h3>
       <hr>
@@ -19,10 +20,11 @@
       <hr>
       <h4>Žanrovi</h4>
       <i>{{ genres.join(', ') }}</i>
+
     </div>
   </div>
 
-  <ReviewForm :reviews="reviews" :movie="movie.id"/>
+  <ReviewForm :reviews="reviews" :movie="movie.id" />
 </template>
 
 <script>
@@ -33,11 +35,11 @@ export default {
   name: 'MovieView',
 
   components: { ReviewForm },
-  
+
   data() {
     return {
-      movie: {},
       api_url: '/api/',
+      movie: {},
       genres: [],
       reviews: [],
     }
@@ -53,12 +55,15 @@ export default {
         })
         .catch((e) => console.log(e['name'] + ' ' + e['message']))
     },
+
     getImgSrc() {
       return require(`@/assets/static/${this.$route.params.id}.jpg`)
     },
+
     movieHasGenre(genreId) {
       return this.movie.genres.indexOf(genreId) > -1
     },
+
     getGenres() {
       axios
         .get(`${this.api_url}genres/`)
@@ -70,16 +75,18 @@ export default {
           }
         })
     },
+
     getReviews() {
       axios
         .get(`${this.api_url}reviews/`)
         .then(response => {
           this.reviews = response.data.filter(
             rev => rev.movie == this.$route.params.id
-          )          
+          )
         })
         .catch((e) => console.log(e['name'] + ' ' + e['message']))
     },
+
     getStars(movieId) {
       let reviewsFiltered = this.reviews.filter(r => r.movie == movieId)
       if (reviewsFiltered.length == 0) {
@@ -90,7 +97,7 @@ export default {
         sum += r.stars
       }
       return (sum / reviewsFiltered.length).toFixed(1)
-    }
+    },
   },
 
   mounted() {
@@ -132,23 +139,23 @@ export default {
   color: #FFFFFF;
 }
 
-.card-big-container > h2 {
+.card-big-container>h2 {
   font-size: 30px;
 }
 
-.card-big-container > h3 {
+.card-big-container>h3 {
   font-size: 25px;
 }
 
-.card-big-container > h4 {
+.card-big-container>h4 {
   font-size: 20px;
 }
 
-.card-big-container > i {
+.card-big-container>i {
   font-size: 18px;
 }
 
-.card-big-container > p {
+.card-big-container>p {
   font-family: Arial, Helvetica, sans-serif;
 }
 
