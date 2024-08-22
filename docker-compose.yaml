@@ -19,7 +19,7 @@ services:
       start_period: 15s
     volumes:
       - ./backend:/app
-
+      - db_data:/db/
     networks:
       - app-network
 
@@ -40,3 +40,5 @@ services:
 networks:
   app-network:
 
+volumes:
+  db_data:
